@@ -53,6 +53,7 @@ services:
         - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
       depends_on:
         - redis  
+        
     flower:
         image: mher/flower:0.9.7
         command: ['flower', '--broker=redis://redis:6379', '--port=5555']

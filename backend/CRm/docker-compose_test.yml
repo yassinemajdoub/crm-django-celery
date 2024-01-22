@@ -1,60 +1,15 @@
 version: '3.8'
 
 services:
-  web:
-    build:
-      context: .
-      dockerfile: ./compose/local/django/Dockerfile
-    volumes:
-      - .:/app
-    ports:
-      - 8010:8000
-    env_file:
-      - ./.env/.dev-sample
-    depends_on:
-      - redis
-      - db
-
-  db:
-    image: postgres:14-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_DB=hello_django
-      - POSTGRES_USER=hello_django
-      - POSTGRES_PASSWORD=hello_django
-
-  rabbitmq:
-   image: "rabbitmq:management-alpine"
-   container_name: rabbitmq
-   ports:
-    - "5672:5672"
-    - "15672:15672"
-
-  celery_worker:
-    build:
-      context: .
-      dockerfile: ./compose/local/django/Dockerfile
-    volumes:
-      - .:/app
-    env_file:
-      - ./.env/.dev-sample
-    depends_on:
-      - redis
-      - db
-
-  celery_beat:
-    build:
-      context: .
-      dockerfile: ./compose/local/django/Dockerfile
-    volumes:
-      - .:/app
-    env_file:
-      - ./.env/.dev-sample
-    depends_on:
-      - rabbitmq
-      - db
-
+    pgdb:
+        image: postgres
+        container_name: db
+        environment:
+            - POSTGRES_DB=Crm
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
 
 volumes:
   postgres_data:
