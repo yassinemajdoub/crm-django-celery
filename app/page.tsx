@@ -1,11 +1,14 @@
   import React from 'react';
   import Link from 'next/link';
   import ClientList from './components/clients/clientList';
+  import RequireAuth from './utils/RequireAuth';
 
   export default async function Home() {
     return (
       <>
         {/* Your page content */}
+        {/* <RequireAuth> */}
+
         <h1 className="text-2xl text-gray-800 font-light">Clients</h1>
               
         <Link href="/newclient">
@@ -15,7 +18,7 @@
         </Link>
 
         <ClientList />
-
+        {/* </RequireAuth> */}
       </>
     );
   }

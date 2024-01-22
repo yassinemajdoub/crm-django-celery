@@ -4,9 +4,13 @@ import UseClients from '../../utils/clients/Useclients';
 import Client from './client';
 import React from 'react'
 import Spinner from '../spinner';
+import { useAppSelector } from '@/redux/hooks';
 
 export default function ClientList () {
     const { clients,isLoading,onEditClient, deleteNewObject } = UseClients()
+    const { isAuthenticated } = useAppSelector(state => state.auth);
+
+    console.log(isAuthenticated)
 
   return ( 
     

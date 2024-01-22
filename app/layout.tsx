@@ -8,6 +8,7 @@ import CustomProvider from '@/redux/provider';
 import Sidebar from './components/sidebar';
 import Header from './components/header';
 import Setup from './utils/toastSetup';
+import RequireAuth  from './utils/RequireAuth';
 // import { useRouter } from 'next/router';// Update the import statement
 
 interface Props {
@@ -19,13 +20,16 @@ const Layout = (props: Props) => {
 
   return (
     <>
+    
     <html lang="en" suppressHydrationWarning={true}>
       <Head>
         <title>CRM PTV</title>
       </Head> 
       <body suppressHydrationWarning={true} >
       <CustomProvider> 
+     
         <Setup />
+        {/* <RequireAuth> */}
         <div className="bg-gray-200 min-h-screen">
           <div className="sm:flex min-h-screen">
             <Sidebar />
@@ -36,9 +40,11 @@ const Layout = (props: Props) => {
             </main>
           </div>
         </div>
+        {/* </RequireAuth> */}
         </CustomProvider> 
       </body>
       </html>
+      
     </>
   );
 };

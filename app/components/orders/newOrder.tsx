@@ -2,10 +2,13 @@
 
 import React, { useState, FormEvent , ChangeEvent,useEffect} from 'react';
 import Select from 'react-select';
+import { useRouter } from 'next/navigation';
 import { getClients } from '@/app/utils/clients/getclients';
 import getProducts from '@/app/products/hooks/getProducts';
-import { useOrderCreation } from '@/app/neworder/neworderhook/createNewOrder';
+import { createOrder } from '@/app/neworder/neworderhook/createNewOrder';
 import * as Yup from 'yup';
+import Spinner from '../spinner';
+import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
   client: Yup.string().required('Client is required'),
@@ -18,9 +21,10 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function NewOrderForm() {
-
+    const router = useRouter();
     const [clientOptions, setClientOptions] = useState([]);
     const [productOptions, setProductOptions] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [statusOptions, setstatusOptions] = useState([       
                                                         { value: 'paid', label: 'paid' },
                                                         { value: 'unpaid', label: 'unpaid' }]);
@@ -70,8 +74,6 @@ export default function NewOrderForm() {
         setFormData({ ...formData, [name]: value });
         console.log(`${name} - ${value}`);
       };  
-
-      const {isLoading,createNewOrder} = useOrderCreation()
     
     const onSubmit = async (event :FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -92,8 +94,17 @@ export default function NewOrderForm() {
             start_date: start_date,
             end_date: end_date,
           }
+          setIsLoading(true);
+          const success = await createOrder(data);
+          setIsLoading(false);
 
-          createNewOrder(data);
+          if (success) {
+            toast.success('Order created successfully'); // Show success toast message
+            router.push('/orders');
+          } else {
+            toast.error('Failed to create Order'); // Show failure toast message
+          }
+          
         };
 
     return(
@@ -150,12 +161,13 @@ export default function NewOrderForm() {
                     (e) =>{ setFormData((formData) =>({ ...formData, status: e.value }) )
                     console.log(`${status}`)}}
                    />
-
-            <input
+              <button
               type="submit"
               className="bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900"
-              value="Create Order"
-            />
+              disabled={isLoading}>
+              {isLoading ? <Spinner sm /> : "Create Order"} 
+              </button>
+      
           </form>
 
 </>
