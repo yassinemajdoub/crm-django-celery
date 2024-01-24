@@ -8,4 +8,4 @@ COPY . /app
 
 RUN pip install -r requirements.txt
 
-RUN celery -A CRm beat -l info
+CMD ["sh", "-c", "celery -A CRm beat -l info & exec sleep infinity"]
