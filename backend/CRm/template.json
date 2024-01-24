@@ -61,11 +61,11 @@
                 },
                 {
                     "name": "CELERY_BROKER",
-                    "value": "redis://redis:6379/0"
+                    "value": "redis://localhost:6379"
                 },
                 {
                     "name": "CELERY_BACKEND",
-                    "value": "redis://redis:6379/0"
+                    "value": "redis://localhost:6379"
                 }
               ]
             }
@@ -113,7 +113,7 @@
         "spec": {
           "containers": [
             {
-              "name": "react",
+              "name": "celery",
               "image": "quay.io/${RHT_OCP4_QUAY_USER}/celery",
               "resources": {
                 "limits": {
