@@ -15,6 +15,16 @@ pnpm dev
 ## Backend
 create the .env file 
 
+## without docker
+
+pip install -r requirements.txt
+
+python manage.py migrate 
+
+python manage.py runserver
+
+## with docker
+
 docker-compose build
 
 docker-compose up 

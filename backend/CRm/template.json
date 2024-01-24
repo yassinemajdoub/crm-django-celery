@@ -17,8 +17,8 @@
         "spec": {
           "containers": [
             {
-              "name": "django-container",
-              "image": "your-django-image:latest",
+              "name": "django",
+              "image": "quay.io/${RHT_OCP4_QUAY_USER}/backend",
               "ports": [
                 {
                   "containerPort": 8000,
@@ -37,15 +37,15 @@
                 },
                 {
                   "name": "POSTGRES_USER",
-                  "value": "postgres"
+                  "value": "Crm"
                 },
                 {
                   "name": "POSTGRES_PASSWORD",
-                  "value": "postgres"
+                  "value": "crm_pass"
                 },
                 {
                   "name": "POSTGRES_HOST",
-                  "value": "postgres"
+                  "value": "postgres-service"
                 },
                 {
                   "name": "EMAIL_HOST_PASSWORD",
@@ -68,48 +68,40 @@
         "apiVersion": "v1",
         "kind": "Pod",
         "metadata": {
-          "name": "postgres",
+          "name": "db",
           "labels": {
-            "name": "postgres"
+            "name": "db"
           }
         },
         "spec": {
           "containers": [
             {
               "name": "db",
-              "image": "postgres:15",
+              "image": "rhel8/postgres:15",
               "ports": [
                 {
                   "containerPort": 5432,
-                  "name": "postgres"
+                  "name": "db"
                 }
               ],
               "volumeMounts": [
                 {
-                  "name": "postgres-data",
+                  "name": "db-data",
                   "mountPath": "/var/lib/postgresql/data"
                 }
               ],
               "env": [
                 {
-                  "name": "POSTGRES_DB",
+                  "name": "POSTGRESQL_DATABASE",
                   "value": "Crm"
                 },
                 {
-                  "name": "POSTGRES_USER",
+                  "name": "POSTGRESQL_USER",
                   "value": "Crm"
                 },
                 {
-                  "name": "POSTGRES_PASSWORD",
+                  "name": "POSTGRESQL_PASSWORD",
                   "value": "crm_pass"
-                },
-                {
-                  "name": "EMAIL_HOST_PASSWORD",
-                  "value": "qkcjuzrgkgwkifok"
-                },
-                {
-                  "name": "EMAIL_HOST_USER",
-                  "value": "aqwa4394@gmail.com"
                 }
               ]
             }
@@ -173,6 +165,13 @@
           ]
         }
       }
+    ],
+    "parameters": [
+        {
+            "description" : "Quay namespace the images are stored in" ,
+            "name":"RHT_OCP4_QUAY_USER",
+            " required" :true
+         }
     ]
   }
   
