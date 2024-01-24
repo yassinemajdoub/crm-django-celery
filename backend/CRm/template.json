@@ -303,13 +303,13 @@
         "spec": {
           "selector": {
             "name": "celery"
-          }
-        },
-        "ports": [
+          },
+          "ports": [
             {
               "port": 3001
             }
           ]
+        }
       },
       {
         "apiVersion": "v1",
@@ -320,13 +320,13 @@
         "spec": {
           "selector": {
             "name": "celery-beat"
-          }
-        },
-        "ports": [
+          },
+          "ports": [
             {
               "port": 3002
             }
           ]
+        }
       },
       {
         "apiVersion": "v1",
