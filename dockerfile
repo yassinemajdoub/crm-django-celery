@@ -1,7 +1,5 @@
 FROM node:7.4-alpine
 
-RUN npm install yarn 
-
 RUN adduser node root
 COPY . /home/node/app
 WORKDIR /home/node/app
