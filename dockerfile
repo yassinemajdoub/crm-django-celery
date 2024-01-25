@@ -12,6 +12,6 @@ RUN sudo npm cache clean --force
 # Install npm dependencies
 RUN npm install
 
-# RUN sudo chown -R 1000920000:0 "/.npm"
+RUN chown -R 1000920000:0 "/.npm"
 
 CMD ["npm", "run", "dev"]
