@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 
 ENV NPM_CONFIG_CACHE=/home/node/app/.npm_cache
 
-RUN mkdir /home/node/app/.npm
+RUN mkdir /home/node/app/.npm_cache
 
 RUN npm install
 
