@@ -4,8 +4,6 @@ RUN adduser node root
 COPY . /home/node/app
 WORKDIR /home/node/app
 
-RUN npm install -g yarn
-
 RUN yarn install 
 
 RUN chmod -R 775 /home/node/app
