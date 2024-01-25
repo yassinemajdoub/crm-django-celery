@@ -1,14 +1,17 @@
 FROM node:7.4-alpine
 
+RUN npm install yarn 
+
 RUN adduser node root
 COPY . /home/node/app
 WORKDIR /home/node/app
 
-RUN npm install 
+RUN yarn install 
 
 RUN chmod -R 775 /home/node/app
 RUN chown -R node:root /home/node/app
 
+
 USER 1000
 
-CMD ["npm", "run", "dev"]
+CMD ["yarn", "run", "dev"]
