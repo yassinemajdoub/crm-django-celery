@@ -1,14 +1,16 @@
-FROM node:18
+FROM node:7.4-alpine
 
-WORKDIR /app
+RUN npm install --global yarn pm2
 
-# Copy package.json and yarn.lock first to leverage Docker caching
-COPY package.json /app/
+RUN adduser node root
+COPY . /home/node/app
+WORKDIR /home/node/app
 
-# Install dependencies using yarn
-RUN yarn install
+RUN yarn install 
 
-# Set the container to run as root temporarily to change ownership
-USER root
+RUN chmod -R 775 /home/node/app
+RUN chown -R node:root /home/node/app
+
+USER 1000
 
 CMD ["yarn", "run", "dev"]
