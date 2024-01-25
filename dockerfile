@@ -8,7 +8,7 @@ COPY . ./app
 
 COPY package.json /app
 
-RUN sudo npm cache clean --force 
+RUN npm cache clean --force 
 # Install npm dependencies
 RUN npm install
 
