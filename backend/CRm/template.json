@@ -83,7 +83,7 @@
         },
         "spec": {    
             "securityContext": {
-                "runAsUser": 0
+                "runAsUser": 1001
               },
           "containers": [
             {
