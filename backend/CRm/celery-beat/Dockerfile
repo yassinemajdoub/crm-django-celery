@@ -1,7 +1,10 @@
 FROM python:3.10
 
+# Switch to the non-root user
+USER root
+
 # Create a non-root user
-RUN useradd -m -r -u 1001 celeryuser
+# RUN useradd -m -r -u 1001 celeryuser
 
 WORKDIR /app
 
@@ -15,10 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Set proper permissions for the working directory
-RUN chown -R celeryuser /app
-
-# Switch to the non-root user
-USER celeryuser
+# RUN chown -R celeryuser /app
 
 # Run Celery Beat
 CMD ["celery", "-A", "CRm", "beat", "-l", "info"]

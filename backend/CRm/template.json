@@ -119,7 +119,17 @@
                 "limits": {
                   "cpu": "0.5"
                 }
-              }
+              },
+              "env": [
+                {
+                    "name": "CELERY_BROKER",
+                    "value": "redis://localhost:6379"
+                },
+                {
+                    "name": "CELERY_BACKEND",
+                    "value": "redis://localhost:6379"
+                }
+              ]
             }
           ]
         }
@@ -142,7 +152,17 @@
                 "limits": {
                   "cpu": "0.5"
                 }
-              }
+              },
+              "env": [
+                {
+                    "name": "CELERY_BROKER",
+                    "value": "redis://localhost:6379"
+                },
+                {
+                    "name": "CELERY_BACKEND",
+                    "value": "redis://localhost:6379"
+                }
+              ]
             }
           ]
         }
