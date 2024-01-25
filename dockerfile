@@ -6,7 +6,6 @@ WORKDIR /home/node/app
 RUN npm install
 
 RUN chmod -R 775 /home/node/app
-RUN chown -R 1000920000:0 /home/node/app/.npm
-
+RUN chown -R 1000920000:0 /home/node/app
 
 CMD ["npm", "run", "dev"]
