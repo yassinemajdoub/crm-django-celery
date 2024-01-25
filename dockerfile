@@ -3,7 +3,7 @@ FROM node:18
 WORKDIR /app
 
 # Copy package.json and yarn.lock first to leverage Docker caching
-COPY package.json yarn.lock /app/
+COPY package.json /app/
 
 # Install dependencies using yarn
 RUN yarn install

@@ -81,7 +81,10 @@
             "name": "react"
           }
         },
-        "spec": {
+        "spec": {    
+            "securityContext": {
+                "runAsUser": 0
+              },
           "containers": [
             {
               "name": "react",
