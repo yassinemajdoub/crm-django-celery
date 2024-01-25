@@ -10,6 +10,7 @@ RUN mkdir /home/node/app/.npm_cache
 RUN npm install
 
 RUN chmod -R 775 /home/node/app
-RUN chown -R 1000920000:0 /home/node/app/.npm_cache
+# RUN chown -R 1000920000:0 /home/node/app/.npm_cache
 
-CMD ["npm", "run", "dev"]
+# Use a command to keep the container running
+CMD tail -f /dev/null
