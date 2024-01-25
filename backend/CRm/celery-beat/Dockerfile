@@ -13,12 +13,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code
 COPY . /app
 
+USER celeryuser
+
 RUN mkdir /app/celerybeat-schedule
 
 # Set proper permissions for the working directory
 RUN chown -R celeryuser /app
-
-USER celeryuser
 
 # Run Celery Beat
 CMD ["celery", "-A", "CRm", "beat", "-l", "info","-s","/app/celerybeat-schedule"]
