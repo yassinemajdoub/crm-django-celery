@@ -1,17 +1,14 @@
 FROM node:18
 
 WORKDIR /app
-# Copy package.json first to leverage Docker caching
-COPY . ./app
-RUN mkdir /app/.npm_cache
-RUN export npm_config_cache=/app/npm_cache
 
-COPY package.json /app
+# Copy package.json and yarn.lock first to leverage Docker caching
+COPY package.json yarn.lock /app/
 
-RUN npm cache clean --force 
-# Install npm dependencies
-RUN npm install
+# Install dependencies using yarn
+RUN yarn install
 
-RUN chown -R 1000920000:0 /app/npm_cache
+# Set the container to run as root temporarily to change ownership
+USER root
 
-CMD ["npm", "run", "dev"]
+CMD ["yarn", "run", "dev"]
