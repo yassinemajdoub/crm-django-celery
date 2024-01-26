@@ -13,8 +13,5 @@ COPY . /app
 
 RUN mkdir /app/celerybeat-schedule 
 
-RUN chmod -R 775 /app
-RUN chown -R 1000920000:0 /app
-
 # Run Celery Beat
 CMD ["celery", "-A", "CRm", "beat", "-l", "info","-s","/app/celerybeat-schedule"]
