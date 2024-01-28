@@ -17,9 +17,7 @@ services:
       context: ./backend/CRm
       dockerfile: Dockerfile
     container_name: django
-    command: python ./backend/CRm/manage.py runserver 0.0.0.0:8000 
-    volumes:
-      - .:/the/workdir/path 
+    command: python manage.py runserver 0.0.0.0:8000 
     ports:
       - "8000:8000"
     environment:
