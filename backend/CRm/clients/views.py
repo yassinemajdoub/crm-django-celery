@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from  .tasks import send_email_task
 # Create your views here.
 from rest_framework import generics
 from .models import Client,Order,Product,ScheduledTask
@@ -24,13 +24,9 @@ class SendEmailView(APIView):
                 return Response({'message': 'Client not found'})
 
             subject = subject  # Customize the email subject
-            body = email_message  # Use the email message from the request
-            sender = settings.EMAIL_HOST_USER   # Set the sender email address
-            recipient_list = [client.email]
-
             
             try:
-                send_mail(subject, body, sender, recipient_list)
+                send_email_task(client_id,subject,email_message).delay()
                 return Response({'message': 'Email sent successfully'})
             except Exception as e:
                 return Response({'message': f'Failed to send email: {str(e)}'}, status=500)

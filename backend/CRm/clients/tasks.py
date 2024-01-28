@@ -1,9 +1,22 @@
 from CRm.celery_app import app
+from celery import shared_task
 from django.core.mail import send_mail
 from django.utils import timezone
 from datetime import timedelta
-from .models import Order
+from .models import Order,Client
 from django.conf import settings
+
+@shared_task
+def send_email_task(client_id, subject, message):
+    try:
+        client = Client.objects.get(id=client_id)
+        sender = settings.EMAIL_HOST_USER
+        recipient_list = [client.email]
+
+        send_mail(subject, message, sender, recipient_list)
+        print ("celery task done")
+    except Client.DoesNotExist:
+        pass
 
 @app.task
 def send_email_notification(order_id, days_before):

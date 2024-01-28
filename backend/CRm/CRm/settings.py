@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'clients',
     'django_celery_beat',
     'drf_spectacular',
+    'django-celery-results'
 ]
 
 MIDDLEWARE = [

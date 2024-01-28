@@ -1,12 +1,19 @@
-FROM python:3.10
+FROM python:3.9-alpine
 
-WORKDIR /app
+WORKDIR /code
 
-COPY requirements.txt /app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1 
 
-COPY . /app
 
-RUN pip install -r requirements.txt
+# Install dependencies
+COPY requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Copy application code
+COPY . /code
 
+EXPOSE 8000
+
+# Set the gunicorn configuration directly in the CMD
+CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:8000", "--chdir", "/code/", "CRm.wsgi:application"]
