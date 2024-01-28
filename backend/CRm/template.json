@@ -364,9 +364,23 @@
             }
           ]
         }
+      },
+      {
+        "apiVersion": "route.openshift.io/v1",
+        "kind": "Route",
+        "metadata": {
+          "name": "django-route"
+        },
+        "spec": {
+          "subdomain": "crm-django",
+          "to": {
+            "kind": "Service",
+            "name": "django-service"
+          }
+        }
       }
     ],
-    "parameters": [
+       "parameters": [
         {
             "description" : "Quay namespace the images are stored in" ,
             "name":"RHT_OCP4_QUAY_USER",
