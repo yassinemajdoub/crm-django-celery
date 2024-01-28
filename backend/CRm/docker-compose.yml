@@ -4,9 +4,6 @@ services:
     django:
         build: .
         container_name: django
-        command: python manage.py runserver 0.0.0.0:8000 
-        volumes:
-            - .:/the/workdir/path 
         ports:
             - "8000:8000"
         environment:
@@ -18,8 +15,9 @@ services:
             - db
             - redis
     celery:
-        build: .
-        command: celery -A CRm worker -l INFO
+        build: 
+          context: .
+          dockerfile: ../celery-worker/Dockerfile
         volumes:
             - .:/the/workdir/path 
         environment:
@@ -43,8 +41,9 @@ services:
         image: "redis:alpine"
 
     celery-beat:
-      build: .
-      command: celery -A CRm beat -l info
+      build: 
+        context: .
+        dockerfile: ../celery-worker/Dockerfile
       volumes:
         - .:/the/workdir/path 
       environment:
@@ -53,7 +52,6 @@ services:
         - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
       depends_on:
         - redis  
-        
     flower:
         image: mher/flower:0.9.7
         command: ['flower', '--broker=redis://redis:6379', '--port=5555']

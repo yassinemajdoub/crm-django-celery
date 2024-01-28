@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'djoser',
     'users',
     'clients',
-    'django_celery_beat'
+    'django_celery_beat',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -138,8 +139,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES':[
         # 'rest_framework.permissions.IsAuthenticated'
-    ]
-
+    ],
+    "DEFAULT_SCHEMA_CLASS" : "drf_spectacular.openapi.AutoSchema"
 }
 
 CORS_ALLOWED_ORIGINS = os.getenv(
@@ -148,6 +149,10 @@ CORS_ALLOWED_ORIGINS = os.getenv(
 ).split(',')
 
 CORS_ALLOW_CREDENTIALS = True
+
+SPECTACULAR_SETTINGS= {
+    "TITLE":"CRM",
+}
 
 
 # Password validation

@@ -1,224 +1,299 @@
 {
-    "apiVersion": "v1",
-    "kind": "Template",
-    "metadata": {
-      "name": "django-postgres-template"
+  "apiVersion": "v1",
+  "kind": "Template",
+  "metadata": {
+    "name": "django-postgres-template"
+  },
+  "objects": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "django-deployment",
+        "labels": {
+          "app": "django"
+        }
+      },
+      "spec": {
+        "replicas": 3,
+        "selector": {
+          "matchLabels": {
+            "app": "django"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "django"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "django",
+                "image": "quay.io/${RHT_OCP4_QUAY_USER}/backend",
+                "ports": [
+                  {
+                    "containerPort": 8000,
+                    "name": "django"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "0.5"
+                  }
+                },
+                "env": [
+                  {
+                    "name": "POSTGRES_DB",
+                    "value": "Crm"
+                  },
+                  {
+                    "name": "POSTGRES_USER",
+                    "value": "Crm"
+                  },
+                  {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "crm_pass"
+                  },
+                  {
+                    "name": "POSTGRES_HOST",
+                    "value": "postgres-service"
+                  },
+                  {
+                    "name": "EMAIL_HOST_PASSWORD",
+                    "value": "eyptqiigpjsvbqwu"
+                  },
+                  {
+                    "name": "EMAIL_HOST_USER",
+                    "value": "aqwa4394@gmail.com"
+                  },
+                  {
+                    "name": "DOMAIN",
+                    "value": "localhost:3000"
+                  },
+                  {
+                    "name": "CELERY_BROKER",
+                    "value": "redis://redis-service:6379"
+                  },
+                  {
+                    "name": "CELERY_BACKEND",
+                    "value": "redis://redis-service:6379"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
     },
-    "objects": [
-      {
-        "apiVersion": "v1",
-        "kind": "Pod",
-        "metadata": {
-          "name": "django",
-          "labels": {
-            "name": "django"
-          }
-        },
-        "spec": {
-          "containers": [
-            {
-              "name": "django",
-              "image": "quay.io/${RHT_OCP4_QUAY_USER}/backend",
-              "ports": [
-                {
-                  "containerPort": 8000,
-                  "name": "django"
-                }
-              ],
-              "resources": {
-                "limits": {
-                  "cpu": "0.5"
-                }
-              },
-              "env": [
-                {
-                  "name": "POSTGRES_DB",
-                  "value": "Crm"
-                },
-                {
-                  "name": "POSTGRES_USER",
-                  "value": "Crm"
-                },
-                {
-                  "name": "POSTGRES_PASSWORD",
-                  "value": "crm_pass"
-                },
-                {
-                  "name": "POSTGRES_HOST",
-                  "value": "postgres-service"
-                },
-                {
-                  "name": "EMAIL_HOST_PASSWORD",
-                  "value": "eyptqiigpjsvbqwu"
-                },
-                {
-                  "name": "EMAIL_HOST_USER",
-                  "value": "aqwa4394@gmail.com"
-                },
-                {
-                  "name": "DOMAIN",
-                  "value": "localhost:3000"
-                },
-                {
-                    "name": "CELERY_BROKER",
-                    "value": "redis://redis-service:6379"
-                },
-                {
-                    "name": "CELERY_BACKEND",
-                    "value": "redis://redis-service:6379"
-                }
-              ]
-            }
-          ]
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "react-deployment",
+        "labels": {
+          "app": "react"
         }
       },
-      {
-        "apiVersion": "v1",
-        "kind": "Pod",
-        "metadata": {
-          "name": "react",
-          "labels": {
-            "name": "react"
+      "spec": {
+        "replicas": 3, 
+        "selector": {
+          "matchLabels": {
+            "app": "react"
           }
         },
-        "spec": {    
-          "containers": [
-            {
-              "name": "react",
-              "image": "quay.io/${RHT_OCP4_QUAY_USER}/frontend",
-              "ports": [
-                {
-                  "containerPort": 8000,
-                  "name": "react"
-                }
-              ],
-              "resources": {
-                "limits": {
-                  "cpu": "0.5"
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "react"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "react",
+                "image": "quay.io/${RHT_OCP4_QUAY_USER}/frontend",
+                "ports": [
+                  {
+                    "containerPort": 8000,
+                    "name": "react"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "0.5"
+                  }
                 }
               }
-            }
-          ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "celery-deployment",
+        "labels": {
+          "app": "celery"
         }
       },
-      {
-        "apiVersion": "v1",
-        "kind": "Pod",
-        "metadata": {
-          "name": "celery",
-          "labels": {
-            "name": "celery"
+      "spec": {
+        "replicas": 2, 
+        "selector": {
+          "matchLabels": {
+            "app": "celery"
           }
         },
-        "spec": {
-          "containers": [
-            {
-              "name": "celery",
-              "image": "quay.io/${RHT_OCP4_QUAY_USER}/celery",
-              "resources": {
-                "limits": {
-                  "cpu": "0.5"
-                }
-              },
-              "env": [
-                {
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "celery"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "celery",
+                "image": "quay.io/${RHT_OCP4_QUAY_USER}/celery",
+                "resources": {
+                  "limits": {
+                    "cpu": "0.5"
+                  }
+                },
+                "env": [
+                  {
                     "name": "CELERY_BROKER",
                     "value": "redis://redis-service:6379"
-                },
-                {
+                  },
+                  {
                     "name": "CELERY_BACKEND",
                     "value": "redis://redis-service:6379"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "apiVersion": "v1",
-        "kind": "Pod",
-        "metadata": {
-          "name": "celery-beat",
-          "labels": {
-            "name": "celery-beat"
-          }
-        },
-        "spec": {
-          "containers": [
-            {
-              "name": "celery-beat",
-              "image": "quay.io/${RHT_OCP4_QUAY_USER}/celery-beat",
-              "resources": {
-                "limits": {
-                  "cpu": "0.5"
-                }
-              },
-              "env": [
-                {
-                    "name": "CELERY_BROKER",
-                    "value": "redis://redis-service:6379"
-                },
-                {
-                    "name": "CELERY_BACKEND",
-                    "value": "redis://redis-service:6379"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "apiVersion": "v1",
-        "kind": "Pod",
-        "metadata": {
-          "name": "db",
-          "labels": {
-            "name": "db"
-          }
-        },
-        "spec": {
-          "containers": [
-            {
-              "name": "db",
-              "image": "registry.redhat.io/rhel8/postgresql-15",
-              "ports": [
-                {
-                  "containerPort": 5432,
-                  "name": "db"
-                }
-              ],
-              "volumeMounts": [
-                {
-                  "name": "postgres-data",
-                  "mountPath": "/var/lib/postgresql/data"
-                }
-              ],
-              "env": [
-                {
-                  "name": "POSTGRESQL_DATABASE",
-                  "value": "Crm"
-                },
-                {
-                  "name": "POSTGRESQL_USER",
-                  "value": "Crm"
-                },
-                {
-                  "name": "POSTGRESQL_PASSWORD",
-                  "value": "crm_pass"
-                }
-              ]
-            }
-          ],
-          "volumes": [
-            {
-              "name": "postgres-data",
-              "persistentVolumeClaim": {
-                "claimName": "postgres-pvc"
+                  }
+                ]
               }
-            }
-          ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "celery-beat-deployment",
+        "labels": {
+          "app": "celery-beat"
         }
       },
+      "spec": {
+        "replicas": 1, 
+        "selector": {
+          "matchLabels": {
+            "app": "celery-beat"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "celery-beat"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "celery-beat",
+                "image": "quay.io/${RHT_OCP4_QUAY_USER}/celery-beat",
+                "resources": {
+                  "limits": {
+                    "cpu": "0.5"
+                  }
+                },
+                "env": [
+                  {
+                    "name": "CELERY_BROKER",
+                    "value": "redis://redis-service:6379"
+                  },
+                  {
+                    "name": "CELERY_BACKEND",
+                    "value": "redis://redis-service:6379"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "db-deployment",
+        "labels": {
+          "app": "db"
+        }
+      },
+      "spec": {
+        "replicas": 2, 
+        "selector": {
+          "matchLabels": {
+            "app": "db"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "db"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "db",
+                "image": "registry.redhat.io/rhel8/postgresql-15",
+                "ports": [
+                  {
+                    "containerPort": 5432,
+                    "name": "db"
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "postgres-data",
+                    "mountPath": "/var/lib/postgresql/data"
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "Crm"
+                  },
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "value": "Crm"
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "value": "crm_pass"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "postgres-data",
+                "persistentVolumeClaim": {
+                  "claimName": "postgres-pvc"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
       {
         "apiVersion": "v1",
         "kind": "PersistentVolumeClaim",
@@ -235,32 +310,47 @@
         }
       },
       {
-        "apiVersion": "v1",
-        "kind": "Pod",
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
         "metadata": {
-          "name": "redis",
+          "name": "redis-deployment",
           "labels": {
-            "name": "redis"
+            "app": "redis"
           }
         },
         "spec": {
-          "containers": [
-            {
-              "name": "redis",
-              "image": "registry.redhat.io/rhel9/redis-7",
-              "ports": [
-                {
-                  "containerPort": 6379,
-                  "name": "redis"
-                }
-              ],
-              "resources": {
-                "limits": {
-                  "cpu": "0.5"
-                }
-              }
+          "replicas": 1,
+          "selector": {
+            "matchLabels": {
+              "app": "redis"
             }
-          ]
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "redis"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "name": "redis",
+                  "image": "registry.redhat.io/rhel9/redis-7",
+                  "ports": [
+                    {
+                      "containerPort": 6379,
+                      "name": "redis"
+                    }
+                  ],
+                  "resources": {
+                    "limits": {
+                      "cpu": "0.5"
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       },
       {
